@@ -1,0 +1,13 @@
+---
+description: Enforce consistent screen folder structure
+globs: src/screens/**/*.tsx
+alwaysApply: false
+---
+
+# Screen Structure Rule
+
+- All screens must follow this structure: `src/screens/<ScreenName>/<ScreenName>.tsx` with a sibling `styles.ts`.
+- Keep screen UI logic in `<ScreenName>.tsx` and move StyleSheet definitions to `styles.ts`.
+- Use existing shared components (for example `AppButton`) instead of duplicating UI primitives.
+- All user-facing screen text must come from translation locale files (no hardcoded UI text in screen components).
+- Use vector icons for screen UI icons (for example `react-native-vector-icons`); do not use plain text or emoji as icons.

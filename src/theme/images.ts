@@ -1,0 +1,17 @@
+export const images = {
+  loginBackground: require('../assets/images/login-bg.png'),
+  appLogo: require('../assets/images/LOGO.png'),
+  loginTopReference: require('../assets/images/login-top-ref.png'),
+  loginPromoBackground: require('../assets/images/login-promo-bg.png'),
+  loginPromoHero: require('../assets/images/login-promo-hero.png'),
+  appBG: require('../assets/images/App_Bg.png'),
+  Sales: require('../assets/images/Invoice.png'),
+  Collected: require('../assets/images/Collected.png'),
+  DueAmount: require('../assets/images/Due_Amount.png'),
+  TotalDue: require('../assets/images/Total_Due.png'),
+  TotalReports: require('../assets/images/Total_Reports.png'),
+  TotalCustomer: require('../assets/images/Total_Customer.png'),
+  LinearBG: require('../assets/images/LinearBG.png'),
+  TotalSales: require('../assets/images/Total_sales.png'),
+  DropDown_Img: require('../assets/images/dropdown_down.png'),
+};

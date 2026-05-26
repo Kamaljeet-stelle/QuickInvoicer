@@ -34,7 +34,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -53,6 +53,27 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>AntDesign.ttf</string>
+		<string>MaterialDesignIcons.ttf</string>
+		<string>NeueHaasDisplayRomanItalic.ttf</string>
+		<string>NeueHaasDisplayXXThin.ttf</string>
+		<string>NeueHaasDisplayXXThinItalic.ttf</string>
+		<string>NeueHaasDisplayXThin.ttf</string>
+		<string>NeueHaasDisplayRoman.ttf</string>
+		<string>NeueHaasDisplayBoldItalic.ttf</string>
+		<string>NeueHaasDisplayThinItalic.ttf</string>
+		<string>NeueHaasDisplayBlack.ttf</string>
+		<string>NeueHaasDisplayLight.ttf</string>
+		<string>NeueHaasDisplayXThinItalic.ttf</string>
+		<string>NeueHaasDisplayBlackItalic.ttf</string>
+		<string>NeueHaasDisplayMediumItalic.ttf</string>
+		<string>NeueHaasDisplayBold.ttf</string>
+		<string>NeueHaasDisplayLightItalic.ttf</string>
+		<string>NeueHaasDisplayMediu.ttf</string>
+		<string>NeueHaasDisplayThin.ttf</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
