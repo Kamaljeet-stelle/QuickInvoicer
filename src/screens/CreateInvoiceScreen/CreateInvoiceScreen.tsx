@@ -3,7 +3,7 @@
  * @format
  */
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useCallback, useState } from 'react';
 import { Image, ScrollView, View } from 'react-native';
@@ -26,12 +26,16 @@ import { colors } from '../../theme/colors';
 
 type CreateInvoiceScreenProps = {
   onBack?: () => void;
+  isDuplicate?: boolean;
 };
 
-export function CreateInvoiceScreen({ onBack }: CreateInvoiceScreenProps = {}) {
+export function CreateInvoiceScreen({ onBack, isDuplicate }: CreateInvoiceScreenProps = {}) {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'CreateInvoice'>>();
+  const route = useRoute();
+
   const { t } = useTranslation();
+  const duplicateMode = (route.params as RootStackParamList['CreateInvoice'])?.isDuplicate ?? isDuplicate;
 
   const handleBack = useCallback(() => {
     if (onBack) {
@@ -40,6 +44,10 @@ export function CreateInvoiceScreen({ onBack }: CreateInvoiceScreenProps = {}) {
       navigation.goBack();
     }
   }, [navigation, onBack]);
+
+  const handlePrint = useCallback(() => {
+    navigation.navigate('PrintInvoice');
+  }, [navigation]);
   const [values, setValues] = useState(buildInitialFieldValues);
 
   const setField = useCallback((id: string, text: string) => {
@@ -61,18 +69,20 @@ export function CreateInvoiceScreen({ onBack }: CreateInvoiceScreenProps = {}) {
             value={values[field.id] ?? ''}
             onChangeText={text => setField(field.id, text)}
             onBlur={() => { }}
+            isDropdown={field.showDropdown}
             rightAccessory={
-              field.showDropdown ? <Image source={images.DropDown_Img} style={styles.rightAccessoryIcon} /> : null
+              field.showDropdown ? (
+                <Image source={images.DropDown_Img} style={styles.rightAccessoryIcon} />
+              ) : null
             }
           />
         </View>)}
       </View>
     ));
-
   return (
     <View style={styles.safeRoot}>
       <Header
-        title={t(MessageConstants.SCREEN_TITLE)}
+        title={duplicateMode ? t(MessageConstants.DUPLICATE_INVOICE) : t(MessageConstants.SCREEN_TITLE)}
         onBackPress={handleBack}
       />
       <ScrollView
@@ -103,6 +113,12 @@ export function CreateInvoiceScreen({ onBack }: CreateInvoiceScreenProps = {}) {
             style={styles.footerAddNewBtn}
             textStyle={styles.footerBtnText}
             onPress={() => { }}
+          />
+          <AppButton
+            title={t('printInvoice')}
+            style={styles.footerPrintBtn}
+            textStyle={styles.footerBtnText}
+            onPress={handlePrint}
           />
           <AppButton
             title={t('saveInvoice')}

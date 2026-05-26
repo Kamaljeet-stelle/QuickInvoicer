@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
   },
   footerActions: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 8,
     marginTop: 16,
     marginBottom: 8,
   },
@@ -65,16 +65,25 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.red,
     borderRadius: 40,
     paddingVertical: 12,
+    paddingHorizontal: 8,
+  },
+  footerPrintBtn: {
+    flex: 1,
+    backgroundColor: colors.header,
+    borderRadius: 40,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
   },
   footerSaveBtn: {
     flex: 1,
     backgroundColor: colors.ButtonColor,
     borderRadius: 40,
     paddingVertical: 12,
+    paddingHorizontal: 8,
   },
   footerBtnText: {
     color: colors.whiteColor,
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '700',
   },
 });

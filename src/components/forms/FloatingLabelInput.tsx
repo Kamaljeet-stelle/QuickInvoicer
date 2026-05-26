@@ -2,16 +2,18 @@ import React, { useMemo, useState } from 'react';
 import {
   Animated,
   I18nManager,
+  Pressable,
   StyleSheet,
+  Text,
   TextInput,
   View,
   type StyleProp,
   type TextInputProps,
+  type TextStyle,
   type ViewStyle,
 } from 'react-native';
 import { colors } from '../../theme/colors';
 import { fonts } from '../../theme/fonts';
-import MaterialDesignIcons from '@react-native-vector-icons/material-design-icons';
 
 type FloatingLabelInputProps = {
   label: string;
@@ -22,6 +24,12 @@ type FloatingLabelInputProps = {
   error?: boolean;
   rightAccessory?: React.ReactNode;
   backgroundColor?: string;
+  fieldStyle?: StyleProp<TextStyle>;
+  /** When true, field is press-only (no keyboard) — use with dropdown accessory. */
+  isDropdown?: boolean;
+  /** Renders a menu below the field when set (takes precedence over onDropdownPress). */
+  dropdownOptions?: readonly string[];
+  onDropdownPress?: () => void;
 } & Omit<TextInputProps, 'style' | 'value' | 'onChangeText' | 'placeholder'>;
 
 export function FloatingLabelInput({
@@ -35,9 +43,14 @@ export function FloatingLabelInput({
   onFocus,
   onBlur,
   backgroundColor = '#FFFFFF',
+  fieldStyle,
+  isDropdown = false,
+  dropdownOptions,
+  onDropdownPress,
   ...inputProps
 }: FloatingLabelInputProps) {
   const [isFocused, setIsFocused] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
   const floatProgress = useMemo(() => new Animated.Value(value ? 1 : 0), []);
   const isFloating = isFocused || Boolean(value);
 
@@ -63,6 +76,25 @@ export function FloatingLabelInput({
     onBlur?.(e);
   };
 
+  const hasInlineDropdown = Boolean(isDropdown && dropdownOptions?.length);
+
+  const handleDropdownPress = () => {
+    setIsFocused(true);
+    animateLabel(1);
+    if (hasInlineDropdown) {
+      setDropdownVisible(open => !open);
+      return;
+    }
+    onDropdownPress?.();
+  };
+
+  const handleSelectOption = (option: string) => {
+    onChangeText(option);
+    setDropdownVisible(false);
+    setIsFocused(true);
+    animateLabel(1);
+  };
+
   const labelTop = floatProgress.interpolate({
     inputRange: [0, 1],
     outputRange: [14, -10],
@@ -77,7 +109,12 @@ export function FloatingLabelInput({
 
   return (
     <View style={[styles.container, containerStyle]}>
-      <View style={[styles.shell, error ? styles.shellError : null]}>
+      <View
+        style={[
+          styles.shell,
+          inputProps.multiline ? styles.shellMultiline : null,
+          error ? styles.shellError : null,
+        ]}>
         <Animated.Text
           style={[
             styles.label,
@@ -87,26 +124,84 @@ export function FloatingLabelInput({
               color: labelColor,
               backgroundColor: backgroundColor,
             },
+            fieldStyle,
           ]}>
           {label}
         </Animated.Text>
-        <TextInput
-          ref={inputRef}
-          style={[styles.input, I18nManager.isRTL ? styles.inputRtl : styles.inputLtr]}
-          hitSlop={8}
-          value={value}
-          onChangeText={onChangeText}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          placeholder={isFloating ? '' : label}
-          placeholderTextColor="transparent"
-          {...inputProps}
-        />
-        {rightAccessory ?
-          <View style={styles.rightAccessory}>
-            {rightAccessory}
-          </View> : null}
+
+        {isDropdown ? (
+          <Pressable
+            style={styles.dropdownPressable}
+            onPress={handleDropdownPress}
+            accessibilityRole="button"
+            accessibilityLabel={label}
+            accessibilityState={{ expanded: dropdownVisible || isFocused }}>
+            <Text
+              style={[
+                styles.input,
+                styles.dropdownValue,
+                I18nManager.isRTL ? styles.inputRtl : styles.inputLtr,
+              ]}
+              numberOfLines={1}>
+              {value || (isFloating ? '' : '')}
+            </Text>
+            {rightAccessory ? (
+              <View style={styles.rightAccessory}>{rightAccessory}</View>
+            ) : null}
+          </Pressable>
+        ) : (
+          <>
+            <TextInput
+              ref={inputRef}
+              style={[
+                styles.input,
+                inputProps.multiline ? styles.inputMultiline : null,
+                I18nManager.isRTL ? styles.inputRtl : styles.inputLtr,
+              ]}
+              hitSlop={8}
+              value={value}
+              onChangeText={onChangeText}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              placeholder={isFloating ? '' : label}
+              placeholderTextColor="transparent"
+              {...inputProps}
+            />
+            {rightAccessory ? (
+              <View style={styles.rightAccessory}>{rightAccessory}</View>
+            ) : null}
+          </>
+        )}
       </View>
+
+      {hasInlineDropdown && dropdownVisible ? (
+        <View style={styles.dropdownMenu}>
+          {dropdownOptions!.map((option, index) => {
+            const selected = value === option;
+            const isLast = index === dropdownOptions!.length - 1;
+            return (
+              <Pressable
+                key={option}
+                style={[
+                  styles.dropdownItem,
+                  isLast && styles.dropdownItemLast,
+                  selected && styles.dropdownItemSelected,
+                ]}
+                onPress={() => handleSelectOption(option)}
+                accessibilityRole="menuitem"
+                accessibilityState={{ selected }}>
+                <Text
+                  style={[
+                    styles.dropdownItemText,
+                    selected && styles.dropdownItemTextSelected,
+                  ]}>
+                  {option}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -124,6 +219,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  shellMultiline: {
+    minHeight: 88,
+    alignItems: 'flex-start',
+    paddingTop: 12,
   },
   shellError: {
     borderColor: colors.red,
@@ -143,6 +243,20 @@ const styles = StyleSheet.create({
     fontFamily: fonts.neueHaasRoman,
     paddingVertical: 10,
   },
+  inputMultiline: {
+    minHeight: 72,
+    textAlignVertical: 'top',
+    paddingTop: 12,
+  },
+  dropdownPressable: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    minHeight: 50,
+  },
+  dropdownValue: {
+    paddingVertical: 10,
+  },
   inputLtr: {
     textAlign: 'left',
   },
@@ -151,5 +265,41 @@ const styles = StyleSheet.create({
   },
   rightAccessory: {
     paddingRight: 10,
+  },
+  dropdownMenu: {
+    marginTop: 4,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#C9CDD4',
+    backgroundColor: '#FFFFFF',
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
+    zIndex: 10,
+  },
+  dropdownItem: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#E5E7EB',
+  },
+  dropdownItemLast: {
+    borderBottomWidth: 0,
+  },
+  dropdownItemSelected: {
+    backgroundColor: '#E6F7F5',
+  },
+  dropdownItemText: {
+    fontSize: 16,
+    color: colors.textColor,
+    fontFamily: fonts.neueHaasRoman,
+  },
+  dropdownItemTextSelected: {
+    fontFamily: fonts.neueHaasBold,
+    fontWeight: '600',
+    color: colors.header,
   },
 });

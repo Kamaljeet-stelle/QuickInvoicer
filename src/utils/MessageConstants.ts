@@ -22,6 +22,18 @@ const MessageConstants = {
   LABEL_SGST: 'labelSgst',
   LABEL_IGST: 'labelIgst',
   LABEL_LINE_TOTAL: 'labelLineTotal',
+  PRINT_SCREEN_TITLE: 'printScreenTitle',
+  PRINT_ACTIVITY_TITLE: 'printActivityTitle',
+  PRINT_ACTIVITY_CREATED: 'printActivityCreated',
+  PRINT_ACTIVITY_TIMESTAMP: 'printActivityTimestamp',
+  PDF_SCREEN_TITLE: 'pdfScreenTitle',
+  PDF_DOWNLOAD: 'pdfDownload',
+  PDF_PRINT: 'pdfPrint',
+  PDF_ERROR_TITLE: 'pdfErrorTitle',
+  PDF_DOWNLOAD_ERROR: 'pdfDownloadError',
+  PDF_PRINT_ERROR: 'pdfPrintError',
+  DUPLICATE_BILL: 'duplicateBill',
+  DUPLICATE_INVOICE: 'duplicateInvoice',
 } as const satisfies Record<string, CreateInvoiceTranslationKey>;
 
 export type CreateInvoiceMessageKey =

@@ -80,6 +80,33 @@ export function InvoiceScreen({ onCreateInvoice }: InvoiceScreenProps = {}) {
       navigation.navigate('CreateInvoice');
     }
   }, [navigation, onCreateInvoice]);
+
+  const handleMenuItemPress = useCallback(
+    (item: InvoiceMenuItem) => {
+      if (item.id === '2') {
+        navigation.navigate('PDFPreview');
+      } else if (item.id === '3') {
+        navigation.navigate('PrintInvoice');
+      } else if (item.id === '4') {
+        navigation.navigate('AddPayment');
+      } else if (item.id === '5') {
+        navigation.navigate('CreateInvoice', { isDuplicate: true });
+      } else if (item.id === '6') {
+        navigation.navigate('EmailInvoice');
+      } else if (item.id === '7') {
+        navigation.navigate('SMSInvoice');
+      } else if (item.id === '8') {
+        navigation.navigate('RecurringInvoice');
+      } else if (item.id === '9') {
+        navigation.navigate('SaleReturn');
+      } else if (item.id === '10') {
+        navigation.navigate('CancelBill');
+      } else if (item.id === '11') {
+        navigation.navigate('DeleteBill');
+      }
+    },
+    [navigation],
+  );
   const [selectedInvoice, setSelectedInvoice] = useState<string>('invoices');
   const [searchQuery, setSearchQuery] = useState('');
   const t = useCallback(
@@ -177,7 +204,11 @@ export function InvoiceScreen({ onCreateInvoice }: InvoiceScreenProps = {}) {
         data={filteredInvoices}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <InvoiceCard invoice={item} menuItems={listData} />
+          <InvoiceCard
+            invoice={item}
+            menuItems={listData}
+            onMenuItemPress={handleMenuItemPress}
+          />
         )}
         style={styles.list}
         contentContainerStyle={styles.listContent}
