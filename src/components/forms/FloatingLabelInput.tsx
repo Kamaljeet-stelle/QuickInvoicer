@@ -30,6 +30,7 @@ type FloatingLabelInputProps = {
   /** Renders a menu below the field when set (takes precedence over onDropdownPress). */
   dropdownOptions?: readonly string[];
   onDropdownPress?: () => void;
+  textStyle?: StyleProp<TextStyle>;
 } & Omit<TextInputProps, 'style' | 'value' | 'onChangeText' | 'placeholder'>;
 
 export function FloatingLabelInput({
@@ -47,6 +48,7 @@ export function FloatingLabelInput({
   isDropdown = false,
   dropdownOptions,
   onDropdownPress,
+  textStyle,
   ...inputProps
 }: FloatingLabelInputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -157,6 +159,7 @@ export function FloatingLabelInput({
                 styles.input,
                 inputProps.multiline ? styles.inputMultiline : null,
                 I18nManager.isRTL ? styles.inputRtl : styles.inputLtr,
+                textStyle,
               ]}
               hitSlop={8}
               value={value}

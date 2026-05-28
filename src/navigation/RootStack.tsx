@@ -18,6 +18,9 @@ import { RecurringInvoiceScreen } from '../screens/RecurringInvoice/RecurringInv
 import { SaleReturnScreen } from '../screens/SaleReturn/SaleReturn';
 import { DeleteBillScreen } from '../screens/DeleteBill/DeleteBill';
 import { CancelBillScreen } from '../screens/CancelBill/CancelBill';
+import { OldView } from '../screens/OldView/OldView';
+import { PurchasePreviewScreen } from '../screens/PurchasePreview/PurchasePreviewScreen';
+import { EditPurchaseScreen } from '../screens/EditPurchase/EditPurchase';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -58,6 +61,9 @@ export function RootStack() {
           contentStyle: { backgroundColor: 'transparent' },
         }}
       />
+      <Stack.Screen name="OldView" component={OldView} />
+      <Stack.Screen name="PurchasePreview" component={PurchasePreviewScreen} />
+      <Stack.Screen name="EditPurchase" component={EditPurchaseScreen} />
     </Stack.Navigator>
   );
 }

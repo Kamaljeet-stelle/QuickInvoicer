@@ -13,9 +13,15 @@ export type PdfTableProps = {
   /** Each row must match `columns` length (left → right). */
   rows: readonly (readonly string[])[];
   columnWidth?: number;
+  headerBackgroundColor?: string;
 };
 
-export function PdfTable({ columns, rows, columnWidth = 72 }: PdfTableProps) {
+export function PdfTable({
+  columns,
+  rows,
+  columnWidth = 72,
+  headerBackgroundColor = '#333333',
+}: PdfTableProps) {
   const cellStyle = [styles.cell, { width: columnWidth }];
 
   return (
@@ -25,7 +31,7 @@ export function PdfTable({ columns, rows, columnWidth = 72 }: PdfTableProps) {
       showsHorizontalScrollIndicator
       style={styles.scroll}>
       <View>
-        <View style={styles.headerRow}>
+        <View style={[styles.headerRow, { backgroundColor: headerBackgroundColor }]}>
           {columns.map(col => (
             <Text key={col} style={[styles.headerCell, cellStyle]} numberOfLines={2}>
               {col}

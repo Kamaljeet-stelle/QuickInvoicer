@@ -40,41 +40,41 @@ export function AddPayment() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}>
-          {ADD_PAYMENT_FIELD_ROWS.map((row, rowIndex) => (
-            <View key={`row-${rowIndex}`} style={styles.fieldGroup}>
-              {row.map(field => (
-                <View key={field.id} style={styles.fieldFull}>
-                  <FloatingLabelInput
-                    label={t(field.labelKey)}
-                    value={values[field.id]}
-                    onChangeText={text => setField(field.id, text)}
-                    onBlur={() => {}}
-                    isDropdown={field.showDropdown}
-                    dropdownOptions={
-                      field.showDropdown ? PAYMENT_METHOD_OPTIONS : undefined
-                    }
-                    rightAccessory={
-                      field.showDropdown ? (
-                        <Image
-                          source={images.DropDown_Img}
-                          style={styles.rightAccessoryIcon}
-                        />
-                      ) : null
-                    }
-                  />
-                </View>
-              ))}
-            </View>
-          ))}
-
-          <View style={styles.submitButtonContainer}>
-            <AppButton
-              title={t('addPaymentSubmit')}
-              style={styles.submitButton}
-              textStyle={styles.submitButtonText}
-              onPress={() => {}}
-            />
+        {ADD_PAYMENT_FIELD_ROWS.map((row, rowIndex) => (
+          <View key={`row-${rowIndex}`} style={styles.fieldGroup}>
+            {row.map(field => (
+              <View key={field.id} style={styles.fieldFull}>
+                <FloatingLabelInput
+                  label={t(field.labelKey)}
+                  value={values[field.id]}
+                  onChangeText={text => setField(field.id, text)}
+                  onBlur={() => { }}
+                  isDropdown={field.showDropdown}
+                  dropdownOptions={
+                    field.showDropdown ? PAYMENT_METHOD_OPTIONS : undefined
+                  }
+                  rightAccessory={
+                    field.showDropdown ? (
+                      <Image
+                        source={images.DropDown_Img}
+                        style={styles.rightAccessoryIcon}
+                      />
+                    ) : null
+                  }
+                />
+              </View>
+            ))}
           </View>
+        ))}
+
+        <View style={styles.submitButtonContainer}>
+          <AppButton
+            title={t('addPaymentSubmit')}
+            style={styles.submitButton}
+            textStyle={styles.submitButtonText}
+            onPress={() => { }}
+          />
+        </View>
       </ScrollView>
     </View>
   );

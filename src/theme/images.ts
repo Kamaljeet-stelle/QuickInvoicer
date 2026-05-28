@@ -14,4 +14,5 @@ export const images = {
   LinearBG: require('../assets/images/LinearBG.png'),
   TotalSales: require('../assets/images/Total_sales.png'),
   DropDown_Img: require('../assets/images/dropdown_down.png'),
+  ArrowRightWith: require('../assets/images/right_arrow.png'),
 };

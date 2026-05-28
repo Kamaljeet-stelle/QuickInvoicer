@@ -8,7 +8,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import MaterialDesignIcons from '@react-native-vector-icons/material-design-icons';
 import { HomeScreen } from '../screens/HomeScreen/HomeScreen';
 import { InvoiceScreen } from '../screens/InvoiceScreen/InvoiceScreen';
-import { MenuScreen } from '../screens/MenuScreen/MenuScreen';
+import { MenuStack } from './MenuStack';
 import { ReportScreen } from '../screens/ReportScreen/ReportScreen';
 import { HOME_TRANSLATIONS, type HomeTranslationKey } from '../locales';
 
@@ -27,7 +27,7 @@ export function BottomTabs() {
       return <ReportScreen />;
     }
     if (tab === 'menu') {
-      return <MenuScreen />;
+      return <MenuStack />;
     }
     return <HomeScreen />;
   }, [tab]);

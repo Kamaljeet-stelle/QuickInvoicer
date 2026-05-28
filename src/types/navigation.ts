@@ -17,6 +17,21 @@ export type RootStackParamList = {
   SaleReturn: undefined;
   DeleteBill: undefined;
   CancelBill: undefined;
+  OldView: undefined;
+  PurchasePreview: undefined;
+  EditPurchase:
+    | {
+        purchase?: {
+          id: string;
+          purchaseNumber: string;
+          customerName: string;
+          contactMasked: string;
+          dateIso: string;
+          amount: number;
+          balance: number;
+        };
+      }
+    | undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

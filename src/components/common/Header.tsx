@@ -129,9 +129,14 @@ export function Header({
                     ) : (
                         <>
                             <View style={styles.leftArrowIcon}>
-                                <TouchableOpacity style={styles.headerIconBtn} accessibilityRole="button" onPress={onBackPress}>
-                                    <AntDesign name="left" size={20} color="#FFFFFF" />
-                                </TouchableOpacity>
+                                {onBackPress ? (
+                                    <TouchableOpacity
+                                        style={styles.headerIconBtn}
+                                        accessibilityRole="button"
+                                        onPress={onBackPress}>
+                                        <AntDesign name="left" size={20} color="#FFFFFF" />
+                                    </TouchableOpacity>
+                                ) : null}
                                 <Text style={styles.headerName} numberOfLines={1}>
                                     {title}
                                 </Text>
